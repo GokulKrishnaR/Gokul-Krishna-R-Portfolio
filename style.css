@@ -93,11 +93,11 @@ a:hover{
 /* CONTACT LINKS */
 
 .glass a{
-    color:white;
+    color:#00e5ff;
 }
 
 .glass a:hover{
-    color:#00e5ff;
+    color:#0c97f3;
 }
 
 body{
@@ -129,11 +129,18 @@ z-index:1000;
 }
 
 .logo{
-font-size:28px;
-font-weight:700;
-color:#00e5ff;
+    font-size:28px;
+    font-weight:700;
 }
 
+.logo a{
+    color:#00e5ff;
+    text-decoration:none;
+}
+
+.logo a:hover{
+    color:#00e5ff;
+}
 nav ul{
 display:flex;
 list-style:none;
