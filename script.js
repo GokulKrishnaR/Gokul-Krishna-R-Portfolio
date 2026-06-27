@@ -511,36 +511,49 @@ function initContactForm() {
 
     if (!form || !statusDiv) return;
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const submitBtn = form.querySelector(".btn-submit");
-        const origText = submitBtn.innerHTML;
+        const originalText = submitBtn.innerHTML;
 
-        // Show sending state
         submitBtn.disabled = true;
         submitBtn.innerHTML = `Sending... <i class="fas fa-spinner fa-spin"></i>`;
+
         statusDiv.className = "form-status";
         statusDiv.textContent = "";
 
-        // Simulate email submission (e.g. mock serverless function request)
-        setTimeout(() => {
-            // Re-enable button
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                statusDiv.classList.add("success");
+                statusDiv.innerHTML =
+                    `<i class="fas fa-check-circle"></i> Message sent successfully! I'll get back to you soon.`;
+
+                form.reset();
+            } else {
+                throw new Error(result.message || "Failed to send message.");
+            }
+        } catch (error) {
+            statusDiv.classList.add("error");
+            statusDiv.innerHTML =
+                `<i class="fas fa-times-circle"></i> ${error.message}`;
+        } finally {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = origText;
+            submitBtn.innerHTML = originalText;
 
-            // Show Success Notification
-            statusDiv.classList.add("success");
-            statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Message sent successfully! I'll get back to you soon.`;
-
-            // Clear input fields
-            form.reset();
-
-            // Clear notification after 6 seconds
             setTimeout(() => {
                 statusDiv.textContent = "";
                 statusDiv.className = "form-status";
             }, 6000);
-        }, 1500);
+        }
     });
 }
