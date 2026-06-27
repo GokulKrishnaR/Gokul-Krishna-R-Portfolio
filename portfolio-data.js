@@ -85,7 +85,7 @@ const PORTFOLIO_DATA = {
       description: "Implemented and evaluated machine unlearning techniques including Gradient Ascent, Negative Gradient Plus (NG+), Loss-NG+, and Fisher Forgetting on MNIST and CIFAR datasets in federated systems.",
       category: "AI & ML",
       tags: ["PyTorch", "Federated Learning", "Machine Unlearning", "MNIST", "CIFAR"],
-      githubUrl: "https://github.com/GokulKrishnaR", // General profile fallback or project link
+      githubUrl: "", // General profile fallback or project link
       liveUrl: ""
     },
     {
@@ -102,15 +102,15 @@ const PORTFOLIO_DATA = {
       category: "Web Apps",
       tags: ["LLMs", "Python", "Gradio", "ATS Optimizer"],
       githubUrl: "https://github.com/GokulKrishnaR/ai-resume-portfolio-builder",
-      liveUrl: ""
+      liveUrl: "https://huggingface.co/spaces/GokulKrishnaR04/ai-resume-portfolio-builder"
     },
     {
-      title: "Sales Forecasting & Analysis",
-      description: "An end-to-end data analytics and predictive modeling project forecasting retail sales patterns using historical sales data and regression algorithms.",
-      category: "Data Science",
-      tags: ["Machine Learning", "Pandas", "Scikit-Learn", "Data Analytics"],
-      githubUrl: "https://github.com/GokulKrishnaR/CODSOFT",
-      liveUrl: ""
+      title: "CarbonAnalyzer: Personal Carbon Footprint Analyzer",
+      description: "An AI-powered web application that helps users estimate, visualize, and reduce their personal carbon footprint based on everyday lifestyle choices.",
+      category: "Web Apps",
+      tags: ["Vibe Coding", "Web Design", "Artificial Intelligence", "Data Analytics"],
+      githubUrl: "https://github.com/GokulKrishnaR/CarbonAnalyzer",
+      liveUrl: "https://carbonanalyzer.vercel.app/"
     }
   ]
 };

@@ -4,22 +4,22 @@
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Initialize Portfolio Data Dynamic Rendering
     initPortfolioData();
-    
+
     // 2. Typewriter Effect
     initTypewriter();
-    
+
     // 3. Interactive Particles Background
     initParticles();
-    
+
     // 4. Scroll Animations (Reveal) & Active Nav Tracker
     initScrollInteractions();
-    
+
     // 5. Mobile Menu Toggle
     initMobileNav();
-    
+
     // 6. Project Filter Logic
     initProjectFilters();
-    
+
     // 7. Contact Form Handling
     initContactForm();
 
@@ -41,36 +41,36 @@ function initPortfolioData() {
     // Render Personal Info
     if (data.personalInfo) {
         const info = data.personalInfo;
-        
+
         // Brand & Logo
         const logoText = document.getElementById("logo-text");
         if (logoText) logoText.textContent = info.shortName || "GKR";
-        
+
         // Hero Content
         const heroName = document.getElementById("hero-name");
         if (heroName) heroName.textContent = info.name;
-        
+
         const heroTagline = document.getElementById("hero-tagline-para");
         if (heroTagline) heroTagline.textContent = info.tagline;
-        
+
         // Resume download button link
         const resumeBtn = document.getElementById("btn-download-resume");
         if (resumeBtn) resumeBtn.href = info.resumeUrl || "assets/resume.pdf";
-        
+
         // About Section Bio
         const aboutBio = document.getElementById("about-bio");
         if (aboutBio) aboutBio.textContent = info.aboutMe;
-        
+
         // Contact details
         const emailLink = document.getElementById("contact-email-link");
         if (emailLink) {
             emailLink.href = `mailto:${info.email}`;
             emailLink.textContent = info.email;
         }
-        
+
         const locText = document.getElementById("contact-location-text");
         if (locText) locText.textContent = info.location;
-        
+
         // Socials rendering helper
         renderSocials(info);
     }
@@ -128,7 +128,7 @@ function initPortfolioData() {
 function renderSocials(info) {
     const heroSocials = document.getElementById("hero-socials");
     const contactSocials = document.getElementById("contact-socials-container");
-    
+
     let socialsHtml = "";
     if (info.github) {
         socialsHtml += `<a href="${info.github}" target="_blank" class="social-icon" aria-label="GitHub Profile"><i class="fab fa-github"></i></a>`;
@@ -139,7 +139,7 @@ function renderSocials(info) {
     if (info.email) {
         socialsHtml += `<a href="mailto:${info.email}" class="social-icon" aria-label="Send Email"><i class="fas fa-envelope"></i></a>`;
     }
-    
+
     if (heroSocials) heroSocials.innerHTML = socialsHtml;
     if (contactSocials) contactSocials.innerHTML = socialsHtml;
 }
@@ -151,19 +151,19 @@ function renderSocials(info) {
 function initTypewriter() {
     const typingSpan = document.getElementById("typing-text");
     if (!typingSpan) return;
-    
-    const roles = (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA.roles) 
-        ? PORTFOLIO_DATA.roles 
+
+    const roles = (typeof PORTFOLIO_DATA !== 'undefined' && PORTFOLIO_DATA.roles)
+        ? PORTFOLIO_DATA.roles
         : ["Developer", "Researcher", "Engineer"];
-        
+
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
     let delay = 100;
-    
+
     function type() {
         const currentRole = roles[roleIndex];
-        
+
         if (isDeleting) {
             typingSpan.textContent = currentRole.substring(0, charIndex - 1);
             charIndex--;
@@ -173,22 +173,22 @@ function initTypewriter() {
             charIndex++;
             delay = 100; // Normal typing speed
         }
-        
+
         // Finished typing the word
         if (!isDeleting && charIndex === currentRole.length) {
             isDeleting = true;
             delay = 2000; // Hold full word for 2 seconds
-        } 
+        }
         // Finished deleting the word
         else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             roleIndex = (roleIndex + 1) % roles.length;
             delay = 400; // Wait before starting next word
         }
-        
+
         setTimeout(type, delay);
     }
-    
+
     // Start typing loop
     setTimeout(type, 500);
 }
@@ -200,38 +200,38 @@ function initTypewriter() {
 function initParticles() {
     const canvas = document.getElementById("particles-canvas");
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext("2d");
     let particlesArray = [];
-    
+
     // Mouse interaction tracking
     const mouse = {
         x: null,
         y: null,
         radius: 120 // Radius of interaction connection
     };
-    
+
     window.addEventListener("mousemove", (e) => {
         mouse.x = e.x;
         mouse.y = e.y;
     });
-    
+
     window.addEventListener("mouseout", () => {
         mouse.x = null;
         mouse.y = null;
     });
-    
+
     // Fit canvas to window size
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         initParticlePool();
     }
-    
+
     window.addEventListener("resize", resizeCanvas);
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    
+
     // Particle Class
     class Particle {
         constructor(x, y, vx, vy, size, color) {
@@ -242,14 +242,14 @@ function initParticles() {
             this.size = size;
             this.color = color;
         }
-        
+
         draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
             ctx.fillStyle = this.color;
             ctx.fill();
         }
-        
+
         update() {
             // Collision detection with window borders
             if (this.x > canvas.width || this.x < 0) {
@@ -258,48 +258,48 @@ function initParticles() {
             if (this.y > canvas.height || this.y < 0) {
                 this.vy = -this.vy;
             }
-            
+
             // Move particle
             this.x += this.vx;
             this.y += this.vy;
-            
+
             this.draw();
         }
     }
-    
+
     // Populate particle list
     function initParticlePool() {
         particlesArray = [];
         // Scale number of particles based on screen width
         const numberOfParticles = Math.min(Math.floor((canvas.width * canvas.height) / 14000), 100);
-        
+
         for (let i = 0; i < numberOfParticles; i++) {
             const size = Math.random() * 2 + 1; // small subtle dots
             const x = Math.random() * (canvas.width - size * 2) + size;
             const y = Math.random() * (canvas.height - size * 2) + size;
-            
+
             // Slow velocities for subtle, premium movement
             const vx = (Math.random() - 0.5) * 0.4;
             const vy = (Math.random() - 0.5) * 0.4;
-            
+
             // Subtle cyan or purple hue with transparency
             const isCyan = Math.random() > 0.4;
             const color = isCyan ? "rgba(6, 182, 212, 0.25)" : "rgba(99, 102, 241, 0.25)";
-            
+
             particlesArray.push(new Particle(x, y, vx, vy, size, color));
         }
     }
-    
+
     // Connect particles that are close together with translucent lines
     function connect() {
         let opacityValue = 1;
         const maxDist = 120;
-        
+
         for (let a = 0; a < particlesArray.length; a++) {
             for (let b = a + 1; b < particlesArray.length; b++) {
-                const distSq = (particlesArray[a].x - particlesArray[b].x) ** 2 + 
-                               (particlesArray[a].y - particlesArray[b].y) ** 2;
-                               
+                const distSq = (particlesArray[a].x - particlesArray[b].x) ** 2 +
+                    (particlesArray[a].y - particlesArray[b].y) ** 2;
+
                 if (distSq < maxDist * maxDist) {
                     const dist = Math.sqrt(distSq);
                     opacityValue = 1 - (dist / maxDist);
@@ -311,11 +311,11 @@ function initParticles() {
                     ctx.stroke();
                 }
             }
-            
+
             // Connect to mouse cursor
             if (mouse.x !== null && mouse.y !== null) {
-                const mouseDistSq = (particlesArray[a].x - mouse.x) ** 2 + 
-                                    (particlesArray[a].y - mouse.y) ** 2;
+                const mouseDistSq = (particlesArray[a].x - mouse.x) ** 2 +
+                    (particlesArray[a].y - mouse.y) ** 2;
                 if (mouseDistSq < mouse.radius * mouse.radius) {
                     const dist = Math.sqrt(mouseDistSq);
                     opacityValue = 1 - (dist / mouse.radius);
@@ -329,18 +329,18 @@ function initParticles() {
             }
         }
     }
-    
+
     // Animation loop
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
+
         for (let i = 0; i < particlesArray.length; i++) {
             particlesArray[i].update();
         }
         connect();
         requestAnimationFrame(animate);
     }
-    
+
     initParticlePool();
     animate();
 }
@@ -354,7 +354,7 @@ function initScrollInteractions() {
     const navLinks = document.querySelectorAll(".nav-link");
     const sections = document.querySelectorAll("section");
     const navbar = document.getElementById("navbar");
-    
+
     // Trigger reveals
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -368,15 +368,15 @@ function initScrollInteractions() {
         threshold: 0.15,
         rootMargin: "0px 0px -50px 0px"
     });
-    
+
     reveals.forEach(el => revealObserver.observe(el));
-    
+
     // Active Navigation Highlighting on Scroll
     const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const activeId = entry.target.getAttribute("id");
-                
+
                 navLinks.forEach(link => {
                     const hrefId = link.getAttribute("href").substring(1);
                     if (hrefId === activeId) {
@@ -390,9 +390,9 @@ function initScrollInteractions() {
     }, {
         threshold: 0.35 // Trigger when 35% of the section is visible
     });
-    
+
     sections.forEach(sec => sectionObserver.observe(sec));
-    
+
     // Add scroll class to Navbar
     window.addEventListener("scroll", () => {
         if (window.scrollY > 50) {
@@ -411,15 +411,15 @@ function initMobileNav() {
     const menuToggle = document.getElementById("menu-toggle");
     const navLinksContainer = document.getElementById("nav-menu");
     const navLinks = document.querySelectorAll(".nav-link, #nav-logo-link");
-    
+
     if (!menuToggle || !navLinksContainer) return;
-    
+
     menuToggle.addEventListener("click", () => {
         const isOpen = menuToggle.classList.toggle("open");
         navLinksContainer.classList.toggle("active");
         menuToggle.setAttribute("aria-expanded", isOpen);
     });
-    
+
     // Close mobile nav drawer when any menu item is clicked
     navLinks.forEach(link => {
         link.addEventListener("click", () => {
@@ -437,50 +437,50 @@ function initMobileNav() {
 function initProjectFilters() {
     const filterTabsContainer = document.getElementById("project-filter-tabs");
     const projectsContainer = document.getElementById("projects-container");
-    
+
     if (!filterTabsContainer || !projectsContainer || typeof PORTFOLIO_DATA === 'undefined') return;
-    
+
     const projects = PORTFOLIO_DATA.projects;
-    
+
     // Get unique categories
     const categories = ["All", ...new Set(projects.map(p => p.category))];
-    
+
     // Render Filter Tabs
     filterTabsContainer.innerHTML = categories.map((cat, idx) => `
         <button class="filter-tab ${idx === 0 ? 'active' : ''}" data-category="${cat}">
             ${cat}
         </button>
     `).join("");
-    
+
     // Render initial projects (All)
     renderProjects("All");
-    
+
     // Tab event listener
     const tabs = filterTabsContainer.querySelectorAll(".filter-tab");
     tabs.forEach(tab => {
         tab.addEventListener("click", () => {
             tabs.forEach(t => t.classList.remove("active"));
             tab.classList.add("active");
-            
+
             const category = tab.getAttribute("data-category");
             renderProjects(category);
         });
     });
-    
+
     function renderProjects(filterCategory) {
-        const filtered = filterCategory === "All" 
-            ? projects 
+        const filtered = filterCategory === "All"
+            ? projects
             : projects.filter(p => p.category === filterCategory);
-            
+
         projectsContainer.innerHTML = filtered.map((proj, idx) => {
-            const githubLink = proj.githubUrl 
-                ? `<a href="${proj.githubUrl}" target="_blank" class="project-link-icon" aria-label="GitHub Repo"><i class="fab fa-github"></i></a>` 
+            const githubLink = proj.githubUrl
+                ? `<a href="${proj.githubUrl}" target="_blank" class="project-link-icon" aria-label="GitHub Repo"><i class="fab fa-github"></i></a>`
                 : '';
-                
-            const liveLink = proj.liveUrl 
-                ? `<a href="${proj.liveUrl}" target="_blank" class="project-link-icon" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>` 
+
+            const liveLink = proj.liveUrl
+                ? `<a href="${proj.liveUrl}" target="_blank" class="project-link-icon" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>`
                 : '';
-                
+
             return `
                 <div class="project-card glass reveal active" style="animation-delay: ${idx * 50}ms">
                     <div class="project-header">
@@ -508,34 +508,34 @@ function initProjectFilters() {
 function initContactForm() {
     const form = document.getElementById("contact-form");
     const statusDiv = document.getElementById("form-status");
-    
+
     if (!form || !statusDiv) return;
-    
+
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        
+
         const submitBtn = form.querySelector(".btn-submit");
         const origText = submitBtn.innerHTML;
-        
+
         // Show sending state
         submitBtn.disabled = true;
         submitBtn.innerHTML = `Sending... <i class="fas fa-spinner fa-spin"></i>`;
         statusDiv.className = "form-status";
         statusDiv.textContent = "";
-        
+
         // Simulate email submission (e.g. mock serverless function request)
         setTimeout(() => {
             // Re-enable button
             submitBtn.disabled = false;
             submitBtn.innerHTML = origText;
-            
+
             // Show Success Notification
             statusDiv.classList.add("success");
             statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Message sent successfully! I'll get back to you soon.`;
-            
+
             // Clear input fields
             form.reset();
-            
+
             // Clear notification after 6 seconds
             setTimeout(() => {
                 statusDiv.textContent = "";
