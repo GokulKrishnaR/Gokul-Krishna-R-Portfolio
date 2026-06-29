@@ -25,13 +25,13 @@ const PORTFOLIO_DATA = {
   // Education Section
   education: [
     {
-      degree: "MSc Computer Science (Data Science)",
+      degree: "MSc Computer Science (with Speciaalization in Data Science)",
       institution: "Cochin University of Science and Technology (CUSAT)",
       duration: "2025 – 2027",
       details: "Specializing in advanced data structures, machine learning theory, big data analytics, and neural networks."
     },
     {
-      degree: "BSc Computer Applications",
+      degree: "BSc Computer Applications (Triple Main)",
       institution: "Sacred Heart College",
       duration: "2022 – 2025",
       details: "Acquired fundamental computing skills in database management, software engineering, and object-oriented programming."
