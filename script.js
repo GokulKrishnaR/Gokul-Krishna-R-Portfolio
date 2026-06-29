@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 7. Contact Form Handling
     initContactForm();
 
+    // 8. Custom Trailing Cursor
+    initCustomCursor();
+
     // Set Footer Year
     document.getElementById("current-year").textContent = new Date().getFullYear();
 });
@@ -560,6 +563,62 @@ function initContactForm() {
                 statusDiv.textContent = "";
                 statusDiv.className = "form-status";
             }, 6000);
+        }
+    });
+}
+
+
+// ==========================================
+// 8. Custom Trailing Cursor
+// ==========================================
+function initCustomCursor() {
+    const cursorDot = document.querySelector('.custom-cursor-dot');
+    const cursorOutline = document.querySelector('.custom-cursor-outline');
+    
+    if (!cursorDot || !cursorOutline) return;
+    
+    let mouseX = 0;
+    let mouseY = 0;
+    let outlineX = 0;
+    let outlineY = 0;
+    
+    const speed = 0.15;
+    
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Dot matches coordinates instantly
+        cursorDot.style.left = `${mouseX}px`;
+        cursorDot.style.top = `${mouseY}px`;
+    });
+    
+    const animateOutline = () => {
+        const distX = mouseX - outlineX;
+        const distY = mouseY - outlineY;
+        
+        outlineX += distX * speed;
+        outlineY += distY * speed;
+        
+        cursorOutline.style.left = `${outlineX}px`;
+        cursorOutline.style.top = `${outlineY}px`;
+        
+        requestAnimationFrame(animateOutline);
+    };
+    animateOutline();
+    
+    // Elements that trigger cursor expansion and hover styling
+    const hoverTargets = 'a, button, select, input, textarea, .btn, [role="button"], .project-card, .skills-card, .stat-card, .social-icon, .mobile-nav-toggle';
+    
+    document.body.addEventListener('mouseover', (e) => {
+        if (e.target.closest(hoverTargets)) {
+            document.body.classList.add('hovered-link');
+        }
+    });
+    
+    document.body.addEventListener('mouseout', (e) => {
+        if (e.target.closest(hoverTargets)) {
+            document.body.classList.remove('hovered-link');
         }
     });
 }
