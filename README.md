@@ -31,7 +31,7 @@ Visit the live site: [gokulkrishnar.github.io/portfolio/](https://gokulkrishnar.
 ├── script.js           # Rendering engine, particles canvas, and form handler
 └── assets/
     ├── logo.svg        # Site favicon & brand representation
-    └── resume.pdf      # Downloadable CV asset
+    └── Gokul_Krishna_R_Resume.pdf      # Downloadable CV asset
 ```
 
 ---
